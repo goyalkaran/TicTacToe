@@ -12,7 +12,6 @@ var server = http.createServer(app);
 var io = require("socket.io")(server);
 io.on("connection", (socket) => {
   console.log("successful connection!");
-  console.log(socket.id);
   //listening from emit in socket_methods
   socket.on("createRoom", async ({ nickname }) => {
     //creating room
@@ -24,24 +23,53 @@ io.on("connection", (socket) => {
         nickname,
         playerType: "X",
       };
+      console.log(nickname);
+
       room.players.push(player);
       room.playerTurn = player;
 
       room = await room.save();
       // room id
-      const roomId = room._id.toString();
-      console.log(nickname);
-      console.log(roomId);
-      socket.join(roomId);
+      const roomID = room._id.toString();
+      socket.join(roomID);
+
       //socket -> sends data to yourself
       //io -> sends data to everyone in room
-      io.to(roomId).emit("roomCreated", room); //from sever to room
+      io.to(roomID).emit("roomCreated", room); //from sever to room
+
+    } catch (e) {
+      console.log(e);
+    }
+  });
+
+  socket.on("joinRoom", async ({ nickname, roomID }) => {
+    try {
+      if (!roomID.match(/^[0-9a-fA-F]{24}$/)) {
+        socket.emit("errorFound", "Enter valid Room ID.");
+       }
+       else{
+        let room = await Room.findById(roomID);
+        if (room.isJoin) {
+          let player = {
+            nickname,
+            socketId: socket.id,
+            playerType: "O",
+          };
+          console.log(nickname);
+          socket.join(roomID);
+          room.players.push(player);
+          room.isJoin=false;
+          room = await room.save();
+          io.to(roomID).emit("roomJoined", room); //from sever to room
+        } else {
+          socket.emit("errorFound", "Room is full please wait and try again later.");
+        }
+      }
     } catch (e) {
       console.log(e);
     }
   });
 });
-
 //creating database
 mongoose
   .connect(database)

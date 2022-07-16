@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tictactoe/resource/socket_mathods.dart';
 import '../widget/custom_buttons.dart';
 import '../widget/custom_text.dart';
 import '../widget/custom_text_field.dart';
@@ -14,6 +15,14 @@ class JoinRoom extends StatefulWidget {
 class _JoinRoomState extends State<JoinRoom> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _roomController = TextEditingController();
+  final SocketMethods _socketMethods = SocketMethods();
+  @override
+  void initState() {
+    super.initState();
+    _socketMethods.roomJoinedListener(context);
+    _socketMethods.errorFoundListener(context);
+    _socketMethods.updatePlayerStateListener(context);
+  }
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -46,7 +55,7 @@ class _JoinRoomState extends State<JoinRoom> {
                 hintText: 'Enter Your Nickname',
               ),
               SizedBox(
-                height: height *0.02,
+                height: height * 0.02,
               ),
               CustomTextField(
                 controller: _roomController,
@@ -56,7 +65,12 @@ class _JoinRoomState extends State<JoinRoom> {
                 height: height / 30,
               ),
               CustomButton(
-                onTap: () {},
+                onTap: () {
+                  _socketMethods.joinRoom(
+                    _nameController.text,
+                    _roomController.text,
+                  );
+                },
                 text: 'Join',
               ),
             ],

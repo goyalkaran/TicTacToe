@@ -23,7 +23,7 @@ io.on("connection", (socket) => {
         nickname,
         playerType: "X",
       };
-      console.log(nickname);
+
 
       room.players.push(player);
       room.playerTurn = player;
@@ -32,7 +32,7 @@ io.on("connection", (socket) => {
       // room id
       const roomID = room._id.toString();
       socket.join(roomID);
-
+      console.log(roomID);
       //socket -> sends data to yourself
       //io -> sends data to everyone in room
       io.to(roomID).emit("roomCreated", room); //from sever to room
@@ -61,6 +61,8 @@ io.on("connection", (socket) => {
           room.isJoin=false;
           room = await room.save();
           io.to(roomID).emit("roomJoined", room); //from sever to room
+          io.to(roomID).emit("updatePlayer", room.players);
+          io.to(roomID).emit("updateRoom", room);
         } else {
           socket.emit("errorFound", "Room is full please wait and try again later.");
         }

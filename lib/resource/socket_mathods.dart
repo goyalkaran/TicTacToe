@@ -59,11 +59,20 @@ class SocketMethods {
       },
     );
   }
-  
-  void updatePlayerStateListener(BuildContext context){
+
+  void updateRoomListener(BuildContext context) {
+    _clientSocket.on("updateRoom", (roomData) {
+      Provider.of<RoomDataProvider>(context, listen: false)
+          .updateRoomData(roomData);
+    });
+  }
+
+  void updatePlayerStateListener(BuildContext context) {
     _clientSocket.on("updatePlayer", (playerData) {
-      Provider.of<RoomDataProvider>(context,listen: false).updatePlayer1(playerData[0]);
-      Provider.of<RoomDataProvider>(context,listen: false).updatePlayer2(playerData[1]);
+      Provider.of<RoomDataProvider>(context, listen: false)
+          .updatePlayer1(playerData[0]);
+      Provider.of<RoomDataProvider>(context, listen: false)
+          .updatePlayer2(playerData[1]);
     });
   }
 }

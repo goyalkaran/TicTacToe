@@ -24,7 +24,6 @@ class _CreateRoomState extends State<CreateRoom> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _nameController.dispose();
   }

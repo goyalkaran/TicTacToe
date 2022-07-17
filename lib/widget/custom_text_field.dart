@@ -3,11 +3,13 @@ import 'package:tictactoe/util/page_color.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
+  final bool isReadOnly;
   final String hintText;
   const CustomTextField({
     Key? key,
     required this.controller,
     required this.hintText,
+    this.isReadOnly=false,
   }) : super(key: key);
 
   @override
@@ -23,6 +25,7 @@ class CustomTextField extends StatelessWidget {
         ],
       ),
       child: TextField(
+        readOnly: isReadOnly,
         cursorColor: Colors.purple.shade400,
         controller: controller,
         decoration: InputDecoration(

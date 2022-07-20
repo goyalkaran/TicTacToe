@@ -18,7 +18,7 @@ class CustomText extends StatelessWidget {
       style: TextStyle(
         color: Colors.purple.shade50,
         fontSize: fontSize,
-        fontFamily: 'BalooBhai',
+        fontFamily: "BalooBhai",
         fontWeight: FontWeight.bold,
         shadows: shadows,
       ),

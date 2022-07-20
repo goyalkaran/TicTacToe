@@ -24,6 +24,12 @@ class _JoinRoomState extends State<JoinRoom> {
     _socketMethods.updatePlayerStateListener(context);
   }
   @override
+  void dispose() {
+    super.dispose();
+    _roomController.dispose();
+    _nameController.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;

@@ -13,9 +13,12 @@ class SocketMethods {
   //sending data from client to server
   void createRoom(String nickname) {
     if (nickname.isNotEmpty) {
-      _clientSocket.emit("createRoom", {
-        "nickname": nickname,
-      });
+      _clientSocket.emit(
+        "createRoom",
+        {
+          "nickname": nickname,
+        },
+      );
     }
   }
 

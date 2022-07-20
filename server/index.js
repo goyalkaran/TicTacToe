@@ -6,10 +6,10 @@ const Room = require("./models/room");
 const app = express();
 const port = process.env.PORT || 8000;
 
-var server = http.createServer(app);
-
+const server = http.createServer(app);
 //shortcut
-var io = require("socket.io")(server);
+const io = require("socket.io")(server);
+
 io.on("connection", (socket) => {
   console.log("successful connection!");
   //listening from emit in socket_methods
@@ -23,11 +23,8 @@ io.on("connection", (socket) => {
         nickname,
         playerType: "X",
       };
-
-
       room.players.push(player);
       room.playerTurn = player;
-
       room = await room.save();
       // room id
       const roomID = room._id.toString();
@@ -36,7 +33,6 @@ io.on("connection", (socket) => {
       //socket -> sends data to yourself
       //io -> sends data to everyone in room
       io.to(roomID).emit("roomCreated", room); //from sever to room
-
     } catch (e) {
       console.log(e);
     }
@@ -44,10 +40,7 @@ io.on("connection", (socket) => {
 
   socket.on("joinRoom", async ({ nickname, roomID }) => {
     try {
-      if (!roomID.match(/^[0-9a-fA-F]{24}$/)) {
-        socket.emit("errorFound", "Enter valid Room ID.");
-       }
-       else{
+      if (roomID.match(/^[0-9a-fA-F]{24}$/)) {
         let room = await Room.findById(roomID);
         if (room.isJoin) {
           let player = {
@@ -58,15 +51,21 @@ io.on("connection", (socket) => {
           console.log(nickname);
           socket.join(roomID);
           room.players.push(player);
-          room.isJoin=false;
+          room.isJoin = false;
           room = await room.save();
           io.to(roomID).emit("roomJoined", room); //from sever to room
           io.to(roomID).emit("updatePlayer", room.players);
           io.to(roomID).emit("updateRoom", room);
         } else {
-          socket.emit("errorFound", "Room is full please wait and try again later.");
+          socket.emit(
+            "errorFound",
+            "Room is full please wait and try again later."
+          );
         }
       }
+     else  {
+              socket.emit("errorFound", "Enter valid Room ID.");
+            }
     } catch (e) {
       console.log(e);
     }

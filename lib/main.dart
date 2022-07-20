@@ -5,7 +5,7 @@ import 'package:tictactoe/pages/game_page.dart';
 import 'package:tictactoe/pages/home_page.dart';
 import 'package:tictactoe/pages/join_room_page.dart';
 import 'package:tictactoe/provider/room_provider.dart';
-import 'package:tictactoe/util/page_color.dart';
+import 'package:tictactoe/util/page_utils.dart';
 import 'package:tictactoe/util/routes.dart';
 import 'package:provider/provider.dart';
 

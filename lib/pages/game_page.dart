@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:tictactoe/pages/waiting_page.dart';
 import 'package:tictactoe/provider/room_provider.dart';
 import 'package:tictactoe/resource/socket_mathods.dart';
+import 'package:tictactoe/util/score_board.dart';
+import 'package:tictactoe/util/tictactoe_board.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({Key? key}) : super(key: key);
@@ -29,8 +31,11 @@ class _GamePageState extends State<GamePage> {
           ? const WaitingLobby()
           : SafeArea(
               child: Column(
-                children: [
-
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: const [
+                  ScoreBoard(),
+                  TicTacToeBoard(),
+                  Text("hello"),
                 ],
               ),
             ),

@@ -32,10 +32,9 @@ class _GamePageState extends State<GamePage> {
           : SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
+                children:  [
                   ScoreBoard(),
                   TicTacToeBoard(),
-                  Text("hello"),
                 ],
               ),
             ),

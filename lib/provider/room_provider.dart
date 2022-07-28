@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:tictactoe/module/player.dart';
+import '../module/player.dart';
 
 class RoomDataProvider extends ChangeNotifier {
   Map<String, dynamic> _roomData = {};
+
   Player _player1 = Player(
-    nickname: "",
-    socketId: "",
-    points: 0,
-    playerType: "X",
+    nickname: '',
+    socketID: '',
+    points: 0.0,
+    playerType: '',
   );
+
   Player _player2 = Player(
-    nickname: "",
-    socketId: "",
-    points: 0,
-    playerType: "O",
+    nickname: '',
+    socketID: '',
+    points: 0.0,
+    playerType: '',
   );
 
   Map<String, dynamic> get roomData => _roomData;

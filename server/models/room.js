@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const playerSchema = require("./player");
+
 const roomSchema = new mongoose.Schema({
   occupancy: {
     type: Number,
@@ -20,9 +21,9 @@ const roomSchema = new mongoose.Schema({
     default: true,
   },
   playerTurn: playerSchema,
-  turn: {
+  turnIndex: {
     type: Number,
-    default: 1,
+    default: 0,
   },
 });
 

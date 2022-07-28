@@ -8,6 +8,10 @@ const port = process.env.PORT || 8000;
 
 const server = http.createServer(app);
 //shortcut
+//middleware
+//client -> middleware -> server
+app.use(express.json());
+
 const io = require("socket.io")(server);
 
 io.on("connection", (socket) => {
@@ -19,7 +23,7 @@ io.on("connection", (socket) => {
       let room = new Room(); //room instance
       //entering player in room
       let player = {
-        socketId: socket.id,
+        socketID: socket.id,
         nickname,
         playerType: "X",
       };
@@ -30,6 +34,7 @@ io.on("connection", (socket) => {
       const roomID = room._id.toString();
       socket.join(roomID);
       console.log(roomID);
+//      console.log(room);
       //socket -> sends data to yourself
       //io -> sends data to everyone in room
       io.to(roomID).emit("roomCreated", room); //from sever to room
@@ -45,17 +50,17 @@ io.on("connection", (socket) => {
         if (room.isJoin) {
           let player = {
             nickname,
-            socketId: socket.id,
+            socketID: socket.id,
             playerType: "O",
           };
-          console.log(nickname);
           socket.join(roomID);
           room.players.push(player);
           room.isJoin = false;
           room = await room.save();
           io.to(roomID).emit("roomJoined", room); //from sever to room
-          io.to(roomID).emit("updatePlayer", room.players);
+          io.to(roomID).emit("updatePlayer", room["players"]);
           io.to(roomID).emit("updateRoom", room);
+          console.log(room["players"]);
         } else {
           socket.emit(
             "errorFound",
@@ -82,9 +87,7 @@ mongoose
     console.log("Connection Failed!!!");
   });
 
-//middleware
-//client -> middleware -> server
-app.use(express.json());
+
 
 server.listen(port, "0.0.0.0", () => {
   console.log(`Server Started and running on port: ${port}`);

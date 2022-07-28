@@ -3,4 +3,5 @@ class MyRoutes {
   static String createRoute = '/create_Room';
   static String joinRoute = '/join_Room';
   static String gameRoute='/game';
+  static String testBoard='/board_test';
 }

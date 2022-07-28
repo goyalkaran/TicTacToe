@@ -5,7 +5,7 @@ const playerSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  socketId: {
+  socketID: {
     type: String,
   },
   points: {
@@ -13,7 +13,7 @@ const playerSchema = new mongoose.Schema({
     default: 0,
   },
   playerType: {
-    //"X" or "O"
+  //"X" or "O"
     required: true,
     type: String,
   },

@@ -12,19 +12,21 @@ class CustomPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(30.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             playerNickname,
             style: const TextStyle(
-              // fontFamily: "BalooBhai",
+              fontFamily: "BalooBhai",
               fontWeight: FontWeight.bold,
-              fontSize: 50,
+              fontSize: 22,
             ),
           ),
-
+          const SizedBox(
+            height: 15,
+          ),
           Text(
             playerPoint,
             style: const TextStyle(

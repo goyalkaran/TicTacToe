@@ -21,6 +21,8 @@ class _GamePageState extends State<GamePage> {
     super.initState();
     _socketMethods.updatePlayerStateListener(context);
     _socketMethods.updateRoomListener(context);
+    _socketMethods.pointIncrementListener(context);
+    _socketMethods.endGameListener(context);
   }
 
   @override
@@ -32,9 +34,11 @@ class _GamePageState extends State<GamePage> {
           : SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children:  [
+                children: [
                   ScoreBoard(),
                   TicTacToeBoard(),
+                  Text(
+                      "${roomDataProvider.roomData["playerTurn"]["nickname"]}'s"),
                 ],
               ),
             ),

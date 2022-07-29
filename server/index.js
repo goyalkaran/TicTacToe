@@ -34,7 +34,7 @@ io.on("connection", (socket) => {
       const roomID = room._id.toString();
       socket.join(roomID);
       console.log(roomID);
-//      console.log(room);
+      //      console.log(room);
       //socket -> sends data to yourself
       //io -> sends data to everyone in room
       io.to(roomID).emit("roomCreated", room); //from sever to room
@@ -58,7 +58,7 @@ io.on("connection", (socket) => {
           room.isJoin = false;
           room = await room.save();
           io.to(roomID).emit("roomJoined", room); //from sever to room
-          io.to(roomID).emit("updatePlayer", room["players"]);
+          io.to(roomID).emit("updatePlayer", room.players);
           io.to(roomID).emit("updateRoom", room);
           console.log(room["players"]);
         } else {
@@ -67,10 +67,48 @@ io.on("connection", (socket) => {
             "Room is full please wait and try again later."
           );
         }
+      } else {
+        socket.emit("errorFound", "Enter valid Room ID.");
       }
-     else  {
-              socket.emit("errorFound", "Enter valid Room ID.");
-            }
+    } catch (e) {
+      console.log(e);
+    }
+  });
+
+  socket.on("tap", async ({ index, roomID }) => {
+    try {
+      let room = await Room.findById(roomID);
+      let choice = room.playerTurn.playerType;
+      if (room.turnIndex == 0) {
+        room.playerTurn = room.players[1];
+        room.turnIndex = 1;
+      } else {
+        room.playerTurn = room.players[0];
+        room.turnIndex = 0;
+      }
+      room = await room.save();
+      io.to(roomID).emit("tapped", {
+        index,
+        choice,
+        room,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  });
+  socket.on("winner", async ({ winnerSocketID, roomID }) => {
+    try {
+      let room = await Room.findById(roomID);
+      let player = room.players.find(
+        (played) => played.socketID == winnerSocketID
+      );
+      player.points += 1;
+      room = await room.save();
+      if (player.points >= room.maxRounds) {
+        io.to(roomID).emit("endGame", player);
+      } else {
+        io.to(roomID).emit("pointIncrement", player);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -86,8 +124,6 @@ mongoose
     console.log(e);
     console.log("Connection Failed!!!");
   });
-
-
 
 server.listen(port, "0.0.0.0", () => {
   console.log(`Server Started and running on port: ${port}`);

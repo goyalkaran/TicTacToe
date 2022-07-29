@@ -11,13 +11,16 @@ class CustomPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String s = playerNickname[0].toUpperCase();
+    final String s1 = playerNickname.substring(1).toLowerCase();
+    final String playerName = s + s1;
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            playerNickname,
+            playerName,
             style: const TextStyle(
               fontFamily: "BalooBhai",
               fontWeight: FontWeight.bold,

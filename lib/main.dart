@@ -5,7 +5,6 @@ import 'package:tictactoe/pages/game_page.dart';
 import 'package:tictactoe/pages/home_page.dart';
 import 'package:tictactoe/pages/join_room_page.dart';
 import 'package:tictactoe/provider/room_provider.dart';
-import 'package:tictactoe/testApp/test_board.dart';
 import 'package:tictactoe/util/page_utils.dart';
 import 'package:tictactoe/util/routes.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +30,6 @@ class MyApp extends StatelessWidget {
           MyRoutes.createRoute: (context) => const CreateRoom(),
           MyRoutes.joinRoute: (context) => const JoinRoom(),
           MyRoutes.gameRoute: (context) => const GamePage(),
-          MyRoutes.testBoard: (context) => const Board(),
         },
         initialRoute: MyRoutes.homeRoute,
       ),

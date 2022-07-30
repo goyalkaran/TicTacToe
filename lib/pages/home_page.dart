@@ -14,10 +14,13 @@ class HomePage extends StatelessWidget {
     Navigator.pushNamed(context, MyRoutes.joinRoute);
   }
 
+  void createComputerRoom(BuildContext context) {
+    Navigator.pushNamed(context, MyRoutes.createComputerRoute);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final double height=MediaQuery.of(context).size.height;
-    final double width=MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Responsive(
         child: Column(
@@ -34,6 +37,13 @@ class HomePage extends StatelessWidget {
             CustomButton(
               onTap: () => joinRoom(context),
               text: 'Join Room',
+            ),
+            SizedBox(
+              height: height / 35,
+            ),
+            CustomButton(
+              onTap: () => createComputerRoom(context),
+              text: 'Computer',
             ),
           ],
         ),
